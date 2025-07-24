@@ -12,7 +12,7 @@ public final class RobotMap {
         public static final int LEFT_CHANNEL = 0;
         public static final int RIGHT_CHANNEL = 1;
 
-        public static final double SLEW_RATE_LIMITER = 3.0;
+        public static final double SLEW_RATE_LIMITER = 1.0;
 
         public static final int JOYSTICK_PORT = 0;
 

@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 public class Drivetrain extends SubsystemBase{
@@ -49,15 +50,6 @@ public class Drivetrain extends SubsystemBase{
         RobotMap.variables.navx.reset();
     }
 
-    public boolean detectJolt(double threshold) {
-        double ax = RobotMap.variables.navx.getWorldLinearAccelX();
-        double ay = RobotMap.variables.navx.getWorldLinearAccelY();
-        double az = RobotMap.variables.navx.getWorldLinearAccelZ();
-    
-        return Math.abs(ax) > threshold || Math.abs(ay) > threshold || Math.abs(az) > threshold;
-    }
-    
-
     public void stop(){
         RobotMap.variables.speedLimiter.reset(0);
         RobotMap.variables.turnLimiter.reset(0);
@@ -68,9 +60,5 @@ public class Drivetrain extends SubsystemBase{
     public void periodic(){
         SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
         SmartDashboard.putBoolean("Curvature Drive", isCurvatureDrive());
-
-        boolean joltDetected = detectJolt(0.8);
-        SmartDashboard.putBoolean("Jolt Detected", joltDetected);
-        
     }
 }
