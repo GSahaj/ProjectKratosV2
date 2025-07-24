@@ -42,12 +42,21 @@ public class Drivetrain extends SubsystemBase{
     }
 
     public double getGyroAngle(){
-        return RobotMap.variables.gyro.getAngle();
+        return RobotMap.variables.navx.getAngle();
     }
 
     public void resetGyro(){
-        RobotMap.variables.gyro.reset();
+        RobotMap.variables.navx.reset();
     }
+
+    public boolean detectJolt(double threshold) {
+        double ax = RobotMap.variables.navx.getWorldLinearAccelX();
+        double ay = RobotMap.variables.navx.getWorldLinearAccelY();
+        double az = RobotMap.variables.navx.getWorldLinearAccelZ();
+    
+        return Math.abs(ax) > threshold || Math.abs(ay) > threshold || Math.abs(az) > threshold;
+    }
+    
 
     public void stop(){
         RobotMap.variables.speedLimiter.reset(0);
@@ -59,8 +68,9 @@ public class Drivetrain extends SubsystemBase{
     public void periodic(){
         SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
         SmartDashboard.putBoolean("Curvature Drive", isCurvatureDrive());
+
+        boolean joltDetected = detectJolt(0.8);
+        SmartDashboard.putBoolean("Jolt Detected", joltDetected);
         
     }
-    
-
 }

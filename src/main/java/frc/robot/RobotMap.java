@@ -24,7 +24,7 @@ public final class RobotMap {
         public VictorSP leftMotor;
         public VictorSP rightMotor;
 
-        public AHRS gyro;
+        public AHRS navx;
 
         public boolean squareInput;
         public boolean curvatureDrive;
@@ -46,7 +46,8 @@ public final class RobotMap {
             drive.setSafetyEnabled(true);
             drive.setExpiration(0.1);
 
-            gyro = new AHRS(SPI.Port.kMXP);
+            navx = new AHRS(SPI.Port.kMXP);
+
 
             speedLimiter = new SlewRateLimiter(OperatorConstants.SLEW_RATE_LIMITER);
             turnLimiter = new SlewRateLimiter(OperatorConstants.SLEW_RATE_LIMITER);
@@ -54,7 +55,7 @@ public final class RobotMap {
             curvatureDrive = false;
             squareInput = true;
             
-            gyro.reset();
+            navx.reset();
         }
 
     }
