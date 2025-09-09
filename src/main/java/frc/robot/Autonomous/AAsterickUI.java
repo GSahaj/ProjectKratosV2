@@ -34,6 +34,8 @@ public class AAsterickUI extends JPanel{
 
 
     private void findPath(){
+        exploredNodes.clear();
+        path.clear();
         path = AAsterick.findPath(grid, start, goal, exploredNodes);
     }
 
@@ -44,12 +46,12 @@ public class AAsterickUI extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 if(currentExploredIndex < exploredNodes.size()){
                     Node node = exploredNodes.get(currentExploredIndex);
-                    colorCell(node.x, node.x, Color.CYAN);
+                    colorCell(node.x, node.y, Color.CYAN);
                     currentExploredIndex++;
                 }
                 else if(currentPathIndex < path.size()){
-                    Node node = exploredNodes.get(currentPathIndex);
-                    colorCell(node.x, node.x, Color.CYAN);
+                    Node node = path.get(currentPathIndex);
+                    colorCell(node.x, node.y, Color.BLUE);
                     currentPathIndex++;
                 }
                 else{
@@ -113,6 +115,11 @@ public class AAsterickUI extends JPanel{
 
         startButton.addActionListener(
             e -> {
+                stopVisualization(); 
+                exploredNodes.clear();
+                path.clear();
+                currentExploredIndex = 0;
+                currentPathIndex = 0;
                 findPath();
                 startVisualization();
             }

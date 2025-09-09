@@ -2,8 +2,10 @@ package frc.robot.Autonomous;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
@@ -17,6 +19,10 @@ public class AAsterick {
     public static List<Node> findPath(int[][] grid, Node start, Node goal, List<Node> exploredNodes){
         PriorityQueue<Node> openSet = new PriorityQueue<>();
         Set<Node> closedSet = new HashSet<>();
+        Map<String, Node> allNodes = new HashMap<>();
+
+        String startKey = start.x + "," + start.y;
+        allNodes.put(startKey, start);
         start.g = 0;
         start.h = heuristic(start, goal);
         openSet.add(start);
@@ -39,19 +45,25 @@ public class AAsterick {
                     continue;
                 }
 
-                Node neighbor = new Node(newX, newY);
+                String key = newX + "," + newY;
+                Node neighbor = allNodes.getOrDefault(key, new Node(newX, newY));
+                allNodes.put(key, neighbor);
 
                 if(closedSet.contains(neighbor)){
                     continue;
                 }
 
-                double tentativeG = current.g +1;
+                double cost = (dir[0] == 0 || dir[1] == 0) ? 1.0: Math.sqrt(2);
+                double tentativeG = current.g + cost;
 
                 if(!openSet.contains(neighbor) || tentativeG < neighbor.g){
                     neighbor.parent = current;
                     neighbor.g = tentativeG;
                     neighbor.h = heuristic(neighbor, goal);
-                    openSet.add(neighbor);
+
+                    if (!openSet.contains(neighbor)){
+                        openSet.add(neighbor);
+                    }
                 }
             }
         }
