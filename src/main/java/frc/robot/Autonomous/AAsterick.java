@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-
 public class AAsterick {
     private static final int[][] dirs = {
             {-1, 0}, {1, 0}, {0, -1}, {0, 1},
