@@ -1,12 +1,11 @@
 package frc.robot.Autonomous;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class AAsterickIntructions{
     public List<Node> path;
-    public static final int SQUARE_SCALE = 5;
+    public static final int SQUARE_SCALE = 5; // To be changed
 
     public AAsterickIntructions(List<Node> path){
         this.path = path;
