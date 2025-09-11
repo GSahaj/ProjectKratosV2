@@ -2,6 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+
+import org.photonvision.PhotonCamera;
+
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -34,6 +37,9 @@ public final class RobotMap {
 
         public DifferentialDrive drive;
 
+        public static PhotonCamera camera;
+        public static boolean cameraState;
+
         public OperatorVariables(){
             leftMotor = new VictorSP(OperatorConstants.LEFT_CHANNEL);
             rightMotor = new VictorSP(OperatorConstants.RIGHT_CHANNEL);
@@ -56,6 +62,9 @@ public final class RobotMap {
             squareInput = true;
             
             navx.reset();
+
+            camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
+            cameraState = false;
         }
 
     }

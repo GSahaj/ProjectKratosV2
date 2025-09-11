@@ -12,15 +12,14 @@ public class AAsterickIntructions{
         this.path = path;
     }
 
-    public List<int[]> getPoints(List<Node> path){
+    public static List<int[]> getPoints(List<Node> path){
         List<int[]> points = new ArrayList<>();
 
         for (Node point: path){
             points.add(new int[]{point.x * SQUARE_SCALE, point.y * SQUARE_SCALE});
+            System.out.println("(" + point.x + "," + point.y + ")");
         }
 
         return points;
     }
-
-    
 }

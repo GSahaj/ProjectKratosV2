@@ -37,6 +37,10 @@ public class AAsterickUI extends JPanel{
         exploredNodes.clear();
         path.clear();
         path = AAsterick.findPath(grid, start, goal, exploredNodes);
+
+        AAsterickIntructions instructions = new AAsterickIntructions(path);
+
+        instructions.getPoints(path);
     }
 
 
