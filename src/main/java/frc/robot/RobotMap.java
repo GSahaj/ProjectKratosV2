@@ -1,11 +1,20 @@
 package frc.robot;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 
 import org.photonvision.PhotonCamera;
-
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -24,10 +33,16 @@ public final class RobotMap {
     }
 
     public static class OperatorVariables {
-        public VictorSP leftMotor;
-        public VictorSP rightMotor;
+        public SparkMax leftMotor;
+        public SparkMax rightMotor;
 
         public AHRS navx;
+
+        public SparkClosedLoopController leftpid;
+        public SparkClosedLoopController rightpid;
+
+        public SparkMaxConfig leftConfig;
+        public SparkMaxConfig rightConfig;
 
         public boolean squareInput;
         public boolean curvatureDrive;
@@ -40,13 +55,59 @@ public final class RobotMap {
         public static PhotonCamera camera;
         public static boolean cameraState;
 
-        public OperatorVariables(){
-            leftMotor = new VictorSP(OperatorConstants.LEFT_CHANNEL);
-            rightMotor = new VictorSP(OperatorConstants.RIGHT_CHANNEL);
+        double rightPositionFactor;
+        double rightVelocityFactor;
 
-            rightMotor.setInverted(true);
-            leftMotor.setInverted(false);
-             
+        double leftPositionFactor;
+        double leftVelocityFactor;
+
+        public OperatorVariables(){
+            leftMotor = new SparkMax(OperatorConstants.LEFT_CHANNEL, MotorType.kBrushless);
+            rightMotor = new SparkMax(OperatorConstants.RIGHT_CHANNEL, MotorType.kBrushless);
+
+            leftpid = leftMotor.getClosedLoopController();
+            rightpid = rightMotor.getClosedLoopController();
+
+            leftConfig = new SparkMaxConfig();
+            rightConfig = new SparkMaxConfig();
+
+            leftConfig
+                .inverted(false)
+                .idleMode(IdleMode.kBrake);
+            
+            leftConfig.encoder 
+                .positionConversionFactor(1000) //need to change factor
+                .velocityConversionFactor(1000); //need to change factor
+
+            leftConfig.closedLoop
+                .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                .pid(1.0, 0.0, 0.0); //need to change pid values
+
+            leftMotor.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+            rightConfig
+                .inverted(true)
+                .idleMode(IdleMode.kBrake);
+            
+            rightConfig.encoder 
+                .positionConversionFactor(1000) //need to change factor
+                .velocityConversionFactor(1000); //need to change factor
+
+            rightConfig.closedLoop
+                .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                .pid(1.0, 0.0, 0.0); //need to change pid values
+            
+            rightMotor.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+            leftConfig.signals.primaryEncoderPositionPeriodMs(5); // change value
+            rightConfig.signals.primaryEncoderPositionPeriodMs(5); // change value
+
+            rightPositionFactor = rightMotor.configAccessor.encoder.getPositionConversionFactor();
+            rightVelocityFactor = rightMotor.configAccessor.encoder.getVelocityConversionFactor();
+
+            leftPositionFactor = leftMotor.configAccessor.encoder.getPositionConversionFactor();
+            leftVelocityFactor = leftMotor.configAccessor.encoder.getVelocityConversionFactor();
+
             drive = new DifferentialDrive(leftMotor, rightMotor);
 
             drive.setSafetyEnabled(true);
@@ -66,7 +127,6 @@ public final class RobotMap {
             camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
             cameraState = false;
         }
-
     }
 
     public static final OperatorVariables variables = new OperatorVariables();

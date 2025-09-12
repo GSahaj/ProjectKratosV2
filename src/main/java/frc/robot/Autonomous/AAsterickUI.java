@@ -9,9 +9,9 @@ import java.util.*;
 import java.util.List;
 
 public class AAsterickUI extends JPanel{
-    private static final int ROWS = 40;
-    private static final int COLS = 40;
-    private static final int CELL_SIZE = 10;
+    private static final int ROWS = 10;
+    private static final int COLS = 10;
+    private static final int CELL_SIZE = 20;
     private int[][] grid;
     private int currentPathIndex = 0;
     private int currentExploredIndex = 0;

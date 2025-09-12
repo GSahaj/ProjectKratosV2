@@ -49,6 +49,26 @@ public class Drivetrain extends SubsystemBase{
         RobotMap.variables.navx.reset();
     }
 
+    public double getRightEncoderPosition(){
+        double position = RobotMap.variables.rightMotor.getEncoder().getPosition();
+        return position;
+    }
+
+    public double getLeftEncoderPosition(){
+        double position = RobotMap.variables.leftMotor.getEncoder().getPosition();
+        return position;
+    }
+
+    public double getRightEncoderVelocity(){
+        double velocity = RobotMap.variables.rightMotor.getEncoder().getVelocity();
+        return velocity;
+    }
+
+    public double getLeftEncoderVelocity(){
+        double velocity = RobotMap.variables.leftMotor.getEncoder().getVelocity();
+        return velocity;
+    }
+
     public void stop(){
         RobotMap.variables.speedLimiter.reset(0);
         RobotMap.variables.turnLimiter.reset(0);
