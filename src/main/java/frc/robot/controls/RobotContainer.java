@@ -2,6 +2,7 @@ package frc.robot.controls;
 
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.RobotMap;
+import frc.robot.commands.AutoCommand;
 import frc.robot.commands.Driver;
 import frc.robot.commands.PhotonVisionCommand;
 import frc.robot.subsystems.Drivetrain;
@@ -14,6 +15,7 @@ public class RobotContainer {
     private final Driver driver = new Driver(drivetrain, controller, RobotMap.OperatorConstants.CURVATURE_DRIVE_BUTTON);
     private final PhotoVision vision = new PhotoVision();
     private final PhotonVisionCommand visionCommand = new PhotonVisionCommand(vision, controller);
+    private final AutoCommand autoCommand = new AutoCommand(drivetrain);
 
     public RobotContainer(){
         setConfigurations();
@@ -26,5 +28,9 @@ public class RobotContainer {
 
     public void disable(){
         drivetrain.stop();
+    }
+
+    public AutoCommand getAutonomousCommand(){
+        return autoCommand;
     }
 }

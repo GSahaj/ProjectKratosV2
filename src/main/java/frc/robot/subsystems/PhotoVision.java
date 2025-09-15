@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
 public class PhotoVision extends SubsystemBase{
-    Drivetrain drivetrain;
+    private Drivetrain drivetrain;
 
     public PhotoVision(){
         drivetrain = new Drivetrain();

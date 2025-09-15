@@ -15,7 +15,7 @@ public class AAsterickUI extends JPanel{
     private int[][] grid;
     private int currentPathIndex = 0;
     private int currentExploredIndex = 0;
-    private List<Node> path;
+    public List<Node> path;
     private List<Node> exploredNodes;
     private JButton[][] gridButtons;
 
@@ -33,7 +33,7 @@ public class AAsterickUI extends JPanel{
     }
 
 
-    private void findPath(){
+    public void findPath(){
         exploredNodes.clear();
         path.clear();
         path = AAsterick.findPath(grid, start, goal, exploredNodes);
@@ -42,6 +42,7 @@ public class AAsterickUI extends JPanel{
 
         instructions.getPoints(path);
     }
+
 
 
     public void startVisualization(){
@@ -144,7 +145,8 @@ public class AAsterickUI extends JPanel{
         return mainPanel;
     }
 
-    public static void main(String[] args){
+
+    public static void executeUI(){
         SwingUtilities.invokeLater(() ->{
             JFrame frame = new JFrame("A* PathFinder Visualizer");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -156,5 +158,9 @@ public class AAsterickUI extends JPanel{
             frame.pack();
             frame.setVisible(true);
         });
+    }
+
+    public static void main(String[] args){
+        executeUI();
     }
 }
